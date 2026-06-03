@@ -1,5 +1,5 @@
 import sqlite3
-
+import asyncio
 
 DB_FILE = "traffic_data.db" # declare the sqlite db file name ( To be implemented in future iterations)
 
@@ -51,5 +51,49 @@ def insert_data(timestamp, pin_12, pin_7, pin_8):
         print(f"Error inserting data: {e}")
 
 
+def print_all_data():
+
+    try:
+        conn = sqlite3.connect(DB_FILE)
+        cursor = conn.cursor()
+
+        cursor.execute('SELECT * FROM traffic_data')
+        rows = cursor.fetchall()
+
+        for row in rows:
+            return f"ID: {row[0]}, Timestamp: {row[1]}, Pin 12: {row[2]}, Pin 7: {row[3]}, Pin 8: {row[4]}"
+
+
+    except Exception as e:
+        print(f"Error retrieving data: {e}")
+
+
+def blocking_get_all_data():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute('SELECT * FROM traffic_data')
+        rows = cursor.fetchall()
+        return rows
+    except Exception as e:
+        print(f"Error retrieving data: {e}")
+        return []
+    finally:
+        conn.close()
+
+
+async def get_all_data():
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, blocking_get_all_data)
+
+
+
+    
+
+        
+
+
 if __name__ == "__main__":
     create_database()
+    print_all_data()
