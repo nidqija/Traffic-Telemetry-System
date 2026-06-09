@@ -1,4 +1,4 @@
-from streamlit_script import home
+from web_project.home_page import home
 
 
 if __name__ == "__main__":
