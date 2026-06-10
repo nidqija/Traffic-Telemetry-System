@@ -1,4 +1,4 @@
-# Traffic Light Monitoring System 🚥
+# Traffic Telemetry System 🚥
  
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=arduino&logoColor=white)
@@ -13,7 +13,7 @@ An integrated traffic monitoring system that combines embedded hardware control 
  
 ## Overview
  
-Traffic Light Monitoring System connects three independent layers:
+Traffic Telemetry System connects three independent layers:
  
 - **Hardware Layer** — Arduino/ESP32 firmware driving physical LED signal nodes with microsecond-accurate state cycling.
 - **Dashboard Layer** — Streamlit frontend for real-time telemetry, traffic data visualization, and system control.
