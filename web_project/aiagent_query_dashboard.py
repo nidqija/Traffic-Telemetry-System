@@ -1,32 +1,108 @@
-import pandas as pd
-import asyncio
-from ai_factory.factory_manager import AiFactoryManager
 import streamlit as st
+from ai_factory.factory_manager import AiFactoryManager
 
-
-
-
-ai_config = {"model_name" : "gemma3:1b"}
+# ------------------- AI AGENT SETUP ------------------- #
+ai_config = {"model_name": "gemma3:1b"}
 ai_agent = AiFactoryManager.get_agent("ollama", ai_config)
+
+# ------------------- PAGE CONFIG ------------------- #
+st.set_page_config(
+    page_title="Traffic AI Agent",
+    page_icon="🚦",
+    layout="centered"
+)
+
+# ------------------- CUSTOM CSS ------------------- #
+st.markdown("""
+<style>
+    .main-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0rem;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #808080;
+        margin-bottom: 2rem;
+    }
+
+    .result-box {
+        padding: 1rem;
+        border-radius: 12px;
+        background-color: #262730;
+        border: 1px solid #444;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 
 def ai_agent_page():
-    st.title("AI Agent Query Interface")
-    st.write("Ask questions about the traffic data and get insights!")
+    # ---------- Header ----------
+    st.markdown(
+        "<div class='main-title'>🚦 Traffic Data AI Agent</div>",
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        "<div class='subtitle'>Ask natural language questions about your traffic light database.</div>",
+        unsafe_allow_html=True
+    )
 
-    user_question = st.text_input("Enter your question about the traffic data:")
+    # ---------- Example Questions ----------
+    with st.expander("💡 Example Questions"):
+        st.markdown("""
+        - How many times was the red light active?
+        - What is the latest traffic record?
+        - How many green light activations are there?
+        - How many total records are stored?
+        - Count the records where only the red light is active.
+        """)
 
-    if st.button("Ask AI Agent"):
-        if user_question.strip() == "":
-            st.warning("Please enter a question before submitting.")
-        else:
-            with st.spinner("AI Agent is thinking..."):
+    # ---------- User Input ----------
+    user_question = st.text_input(
+        "📝 Enter your question",
+        placeholder="e.g. How many times was the red light active?"
+    )
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+
+    with col2:
+        ask_button = st.button(
+            "🚀 Ask AI Agent",
+            use_container_width=True
+        )
+
+    # ---------- Query Execution ----------
+    if ask_button:
+        if not user_question.strip():
+            st.warning(" Please enter a question before submitting.")
+            return
+
+        with st.spinner(" AI Agent is generating SQL..."):
+            try:
                 response = ai_agent.ask_questions(user_question)
-                st.subheader("AI Agent Response:")
-                st.write(response)
+
+                generated_sql = (
+                    response[0][0]
+                    if response and len(response) > 0
+                    else "No SQL query generated."
+                )
+
+                st.success("✅ Query generated successfully!")
+
+                st.markdown("### Generated SQL")
+                st.code(generated_sql, language="sql")
+
+                # Optional: show raw response for debugging
+                with st.expander(" Debug Information"):
+                    st.write(response)
+
+            except Exception as e:
+                st.error(f"❌ Error while generating SQL:\n\n{e}")
 
     else:
-        st.info("Type a question and click the button to get insights from the AI agent.")
+        st.info("👆 Enter a question above and press **Ask AI Agent**.")
 
 
 if __name__ == "__main__":

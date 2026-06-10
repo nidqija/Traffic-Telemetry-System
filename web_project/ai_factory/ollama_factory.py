@@ -1,11 +1,15 @@
+from urllib import response
 from .base_factory import AiAgent
 import ollama
 import sqlite3
+import os
+import requests
 
 class OllamaFactory(AiAgent):
-    def __init__(self, model_name: str = "gemma3:1b"):
+    def __init__(self, model_name: str = "gemma3:1b" , host: str = "http://localhost:11434"):
         self.model_name = model_name
-
+        self.client = ollama.Client(host=host)
+        
 
     def ask_questions(self , question:str) -> tuple[list , list] | str:
 
@@ -21,12 +25,13 @@ class OllamaFactory(AiAgent):
 
 
         try :
-            response = ollama.generate(self.model_name,
+            response = self.client.generate(self.model_name,
                                        system=system_instructions,
                                        prompt = question,
-                                       options={"temperature": 0.2, "max_tokens": 200}
+                                       options={"temperature": 0.4, "max_tokens": 500}
                                        )
             raw_sql = response.get("response" , "")
+            print("Ollama connection test response:" , response)  
             generated_sql = self.clean_sql(raw_sql)
 
             # for debugging purposes , print the generated SQL query to command line
