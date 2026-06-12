@@ -1,4 +1,4 @@
-from web_project.home_page import home
+from home_page import home
 
 
 if __name__ == "__main__":

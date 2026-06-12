@@ -1,6 +1,7 @@
 import streamlit as st
 from traffic_data import stream_to_terminal
 from sqlite_script import get_all_data
+from pages.aiagent_query_dashboard import ai_agent_page
 import pandas as pd
 import asyncio
 
@@ -69,6 +70,11 @@ def home():
         # Sort by latest timestamp first for better UX
         df_sorted = df.sort_values(by="Timestamp", ascending=False)
         st.dataframe(df_sorted, use_container_width=True, hide_index=True)  
+
+
+        ai_agent_button = st.button("Ask AI Agent a Question about the Data")
+        if ai_agent_button:
+            st.switch_page("pages/aiagent_query_dashboard.py")
 
     # Terminal stream call
     stream_to_terminal()
