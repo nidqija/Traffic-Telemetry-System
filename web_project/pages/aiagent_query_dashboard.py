@@ -6,9 +6,11 @@ from ai_factory.cloudflare_worker_factory import CloudflareWorkerFactory
 
 # We can easily switch between different AI agents by changing the agent_type and config parameters
 agent_type = "cloudflare_worker"  # Change to "ollama" if you want
+
 agent_config = {
-    "model_name": "@cf/meta/llama-3-8b-instruct"  # Optional: specify a different model if desired
+    "model_name": "@cf/meta/llama-3.2-3b-instruct"  
 }
+
 try:
     ai_agent = AiFactoryManager.get_agent(agent_type, agent_config)
 except Exception as e:

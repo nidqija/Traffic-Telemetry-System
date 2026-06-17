@@ -2,11 +2,14 @@ import sqlite3
 import os
 from .base_factory import AiAgent
 import requests
+import dotenv
+
+dotenv.load_dotenv()  # Load environment variables from .env filenv file
 
 
 class CloudflareWorkerFactory(AiAgent):
 
-    def __init__(self, model_name: str = "@cf/meta/llama-3-8b-instruct"):
+    def __init__(self, model_name: str = "@cf/meta/llama-3.2-3b-instruct"):
         self.account_id = os.getenv("CLOUDFLARE_ACCOUNT_ID")
         self.api_token = os.getenv("CLOUDFLARE_API_TOKEN")
         self.model_name = model_name
@@ -25,7 +28,7 @@ class CloudflareWorkerFactory(AiAgent):
         """
         
         # FIX: Cleaned up the URL string so it's a normal single API endpoint string
-        url = f"[https://api.cloudflare.com/client/v4/accounts/](https://api.cloudflare.com/client/v4/accounts/){self.account_id}/ai/run/{self.model_name}"
+        url = f"https://api.cloudflare.com/client/v4/accounts/{self.account_id}/ai/run/{self.model_name}"
         headers = {
             "Authorization": f"Bearer {self.api_token}",
             "Content-Type": "application/json"
