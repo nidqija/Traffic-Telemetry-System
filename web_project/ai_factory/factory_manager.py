@@ -3,6 +3,7 @@ import os
 import requests
 from .base_factory import AiAgent
 from .ollama_factory import OllamaFactory
+from .cloudflare_worker_factory import CloudflareWorkerFactory
 
 
 class AiFactoryManager:
@@ -17,6 +18,11 @@ class AiFactoryManager:
             # but we can easily add more agent types in the future by extending this factory method
             model_name = config.get("model_name", "gemma3:1b")
             return OllamaFactory(model_name=model_name)
+        
+        
+        elif agent_type == "cloudflare_worker":
+            model_name = config.get("model_name", "@cf/meta/llama-3-8b-instruct")
+            return CloudflareWorkerFactory(model_name=model_name)
 
         else:
             raise ValueError(f"Unknown agent type: {agent_type}")

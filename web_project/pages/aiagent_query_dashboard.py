@@ -1,9 +1,20 @@
 import streamlit as st
 from ai_factory.factory_manager import AiFactoryManager
+from ai_factory.cloudflare_worker_factory import CloudflareWorkerFactory
 
 # ------------------- AI AGENT SETUP ------------------- #
-ai_config = {"model_name": "gemma3:1b"}
-ai_agent = AiFactoryManager.get_agent("ollama", ai_config)
+
+# We can easily switch between different AI agents by changing the agent_type and config parameters
+agent_type = "cloudflare_worker"  # Change to "ollama" if you want
+agent_config = {
+    "model_name": "@cf/meta/llama-3-8b-instruct"  # Optional: specify a different model if desired
+}
+try:
+    ai_agent = AiFactoryManager.get_agent(agent_type, agent_config)
+except Exception as e:
+    st.error(f"❌ Error initializing AI agent: {e}")
+    st.stop()  # Stop execution if the agent fails to initialize
+
 
 # ------------------- PAGE CONFIG ------------------- #
 st.set_page_config(
@@ -83,11 +94,7 @@ def ai_agent_page():
             try:
                 response = ai_agent.ask_questions(user_question)
 
-                generated_sql = (
-                    response[0][0]
-                    if response and len(response) > 0
-                    else "No SQL query generated."
-                )
+                generated_sql = response if isinstance(response, str) else "N/A"
 
                 st.success("✅ Query generated successfully!")
 
