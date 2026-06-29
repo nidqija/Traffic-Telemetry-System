@@ -1,0 +1,72 @@
+= Architecture Document: 
+:systembase: {system-name}
+:author: {Raziq Din}
+:revnumber: 1.0
+:revdate: {docdate}
+:toc: left
+:toclevels: 3
+:sectnums:
+
+:system-name: System Name
+:author-name: Author Name
+
+== Introduction
+
+- This document provides an overview of the architecture of the Traffic Light Monitoring System. It describes the system's components, their interactions, and the design decisions made during development.
+
+
+=== Purpose
+
+- The purpose of this document is to provide a comprehensive understanding of the architecture of the Traffic Light Monitoring System. It serves as a reference for developers, stakeholders, and maintainers to understand the system's structure, design decisions, and operational considerations.
+
+
+=== Scope
+
+- The scope of this document includes the architectural views, key technical decisions, data architecture, security architecture, observability, operational concerns, and any open questions or risks associated with the Traffic Light Monitoring System. It does not cover detailed implementation specifics or user interface design.
+
+=== Definitions, Acronyms & Abbreviations
+=== References
+
+== System Overview
+=== Goals & Non-Goals
+=== Quality Attributes
+
+== Architectural Views
+=== Context View
+=== Container View
+=== Component View
+=== Deployment View
+
+== Key Technical Decisions
+=== ADR-001: {Decision Title}
+=== ADR-002: {Decision Title}
+
+== Data Architecture
+=== Data Model
+=== Data Flow
+=== Data Retention & Privacy
+
+== Security Architecture
+=== Authentication & Authorization
+=== Network Security
+=== Secrets Management
+=== Threat Model
+
+== Observability
+=== Logging
+=== Metrics
+=== Tracing
+=== Alerting & On-Call
+
+== Operational Concerns
+=== Scalability Strategy
+=== Resilience & Fault Tolerance
+=== Disaster Recovery
+=== Dependency Map
+
+== Open Questions & Risks
+
+== Appendix
+=== Glossary
+=== Related Documents
+=== Revision History
